@@ -1,0 +1,40 @@
+Write your answers for the following problems inside this text file.
+Please be sure to write in coherent, complete thoughts.
+If we cannot understand your answer, we cannot give you points.
+Use your own words - don't just copy/paste some website.
+
+7. Determine Vertex Property
+	In 5 and 6, you're working with the number of connections (edges) that each vertex has.
+
+10. Visualize Dungeon
+	http://bridges-cs.herokuapp.com/assignments/110/pigg
+
+12. Graph Algorithm Validity
+	The graph problem was checking that every room can be accessed from another room, and 
+	depth first search is an optimal way to find this
+
+13. Dungeon Difficulty
+	http://bridges-cs.herokuapp.com/assignments/113/pigg
+
+15. Checking Adjacent Difficulties
+	The graph problem was checking that difficult rooms are only next to easy rooms and that
+	easy rooms are only next to difficult rooms. This can be done similarly to how signed
+	graphs work, but instead of each node being positive or negative, they are either 
+	easy or hard
+
+17. Visualize Objectives
+	http://bridges-cs.herokuapp.com/assignments/117/pigg
+
+19. Visualize Routes
+	Did not get dijkstra's working :(
+
+20. Calculate Runtime
+	Seeing as the runtime of dijkstra's algorithm is O(E + V Log(V)), we can substitute in Connections C as Edges E,
+	and Rooms R as Vertices V, and multiply by the number of times the algorithm must be run, or the number of 
+	Objectives B. Therefore the runtime is O(B * (C + R Log(R))
+
+22. Dungeon MST
+
+23. Kruskal's Algorithm
+
+25. Visualize Clusters

@@ -1,0 +1,58 @@
+import java.util.*;
+import java.io.*;
+import java.lang.String;
+
+public class Solution {
+	HashMap<String, String> morseHash = new HashMap<>();
+    
+    public static void handleSpacedLetters(String morsed) {
+        System.out.println("INCOMPLETE PART 1");
+        
+    }
+    
+    public static void handleWord(String morsed) {
+        System.out.println("INCOMPLETE PART 2");
+    }
+    
+    public static void handleSpacedWords(String morsed) {
+        System.out.println("INCOMPLETE PART 3");
+    }
+    
+    public static void handleSentence(String morsed) {
+        System.out.println("INCOMPLETE PART 4");
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+    	Solution s = new Solution();
+    	// Get input from stdin
+        Scanner scanner = new Scanner(System.in);
+        String command = scanner.nextLine();
+        // Parse the style and morsed code value
+        String[] parts = command.split(":");
+        String style = parts[0].trim();
+        String morsed = parts[1].trim();
+        
+        File morseFile = new File("morse.txt");
+        Scanner morseScanner = new Scanner(morseFile);
+        while(morseScanner.hasNextLine()) {
+        	String [] morsecode = morseScanner.nextLine().split(" ");
+        	s.morseHash.put(morsecode[1], morsecode[0]);
+        }
+        
+        switch (style) {
+            case "Spaced Letters":
+                handleSpacedLetters(morsed);
+                break;
+            case "Word":
+                handleWord(morsed);
+                break;
+            case "Spaced Words":
+                handleSpacedWords(morsed);
+                break;
+            case "Sentence":
+                handleSentence(morsed);
+                break;
+        }  
+    }
+
+}
