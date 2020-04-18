@@ -4,7 +4,6 @@ import java.lang.String;
 
 public class Solution {
 	public HashMap<String, String> morseHash = new HashMap<>();
-	public HashMap<String, String> engHash = new HashMap<>();
 	public ArrayList<String> dictionary = new ArrayList<>();
     
     public static void handleSpacedLetters(String morsed, HashMap<String, String> morseHash, ArrayList<String> dictionary) {
@@ -24,48 +23,15 @@ public class Solution {
     	}
     }
     
-    public static ArrayList<String> handleWord(String morsed, HashMap<String, String> morseHash, HashMap<String, String> engHash, ArrayList<String> dictionary, 
-    											String word, int start, int end, ArrayList<String> output) {
-        boolean outOfBounds = start + end > morsed.length(); //keeps track if you've reached the end of the morse string
-        
-        if(dictionary.contains(word) && !output.contains(word) && correctLength(engHash, morsed, word)) { //adds word to output list if it is in the dictionary and not already added
+    public static ArrayList<String> handleWord(String morsed, HashMap<String, String> morseHash, ArrayList<String> dictionary, String word, int start, int end, ArrayList<String> output) {
+        boolean outOfBounds = end - start < 0; //keeps track if you've reached the end of the morse string
+    	
+    	if(dictionary.contains(word) && !output.contains(word)) { //adds word to output list if it is in the dictionary and not already added
     		output.add(word);
-    	}
-        
-    	if(!outOfBounds) {
-    		String code = morsed.substring(start, start + end);
-    		
-    		if(morseHash.containsKey(code)) {
-    			String updatedWord = word + morseHash.get(code);
-    			
-    			handleWord(morsed, morseHash, engHash, dictionary, updatedWord, start + end, 1, output);
-    			handleWord(morsed, morseHash, engHash, dictionary, word, start, end + 1, output);
-    		}
+    		word = "";
     	}
     	
-    	return output;
-    }
-    
-    //helper function for handleWord
-    public static boolean correctLength(HashMap<String, String> engHash, String morsed, String word) {
-    	String[] splitWord = word.split("");
-    	word = "";
-    	for(String s : splitWord) {
-    		word = word + engHash.get(s);
-    	}
-    	
-    	return morsed.length() == word.length();
-    }
-    
-    
-    public static void handleSpacedWords(String morsed) {
-        System.out.println("INCOMPLETE PART 3");
-    }
-    
-    public static void handleSentence(String morsed) {
-        System.out.println("INCOMPLETE PART 4");
-        
-        /*
+    	/*
     	boolean wordStartsWith = false;
     	for(String d : dictionary) { //makes sure a word starts with the starting pieces of a string
     		if(d.startsWith(word)) {
@@ -74,6 +40,26 @@ public class Solution {
     		}
     	}
     	*/
+    	
+    	if() {
+    		String code = morsed.substring(end - start, end);
+    		
+    		if(morseHash.containsKey(code)) {
+    			String updatedWord = word + morseHash.get(code);
+    			handleWord(morsed, morseHash, dictionary, updatedWord, start + 1, end, output);
+    			handleWord(morsed, morseHash, dictionary, word, start, end - 1, output);
+    		}
+    	}
+    	
+    	return output;
+    }
+    
+    public static void handleSpacedWords(String morsed) {
+        System.out.println("INCOMPLETE PART 3");
+    }
+    
+    public static void handleSentence(String morsed) {
+        System.out.println("INCOMPLETE PART 4");
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -93,7 +79,6 @@ public class Solution {
         while(morseScanner.hasNextLine()) {
         	String [] morsecode = morseScanner.nextLine().split(" ");
         	s.morseHash.put(morsecode[1], morsecode[0]);
-        	s.engHash.put(morsecode[0], morsecode[1]);
         }
         
         //reads the dictionary into an arraylist
@@ -110,9 +95,8 @@ public class Solution {
             case "Word":
             	ArrayList<String> output = new ArrayList<>();
             	String word = "";
-                output = handleWord(morsed, s.morseHash, s.engHash, s.dictionary, word, 0, 1, output);
+                output = handleWord(morsed, s.morseHash, s.dictionary, word, 0, morsed.length() - 1, output);
                 
-                System.out.println(output);
                 Collections.sort(output);
             	for(String o : output) {
             		System.out.println(o);

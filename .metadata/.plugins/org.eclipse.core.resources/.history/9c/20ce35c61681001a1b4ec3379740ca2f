@@ -17,16 +17,35 @@ public class Solution {
     	
     	//binary search to see if the word exists
     	int exists = Collections.binarySearch(dictionary, output);
-    	System.out.println(exists);
-    	System.out.println(dictionary.get(0));
     	
     	if(exists >= 0) {
     		System.out.println(output);
     	}
     }
     
-    public static void handleWord(String morsed) {
-        System.out.println("INCOMPLETE PART 2");
+    public static ArrayList<String> handleWord(String morsed, HashMap<String, String> morseHash, ArrayList<String> dictionary, String word, int start, int end, ArrayList<String> output) {
+        boolean outOfBounds = start + end > morsed.length(); //keeps track if you've reached the end of the morse string
+        
+    	if(!outOfBounds) {
+    		 String code = morsed.substring(start, start + end);
+    		
+    		if(morseHash.containsKey(code)) {
+    			String updatedWord = word + morseHash.get(code);
+    			
+    			handleWord(morsed, morseHash, dictionary, updatedWord, start + end, 1, output);
+    			handleWord(morsed, morseHash, dictionary, word, start, end + 1, output);
+    		}
+    		
+    		if(dictionary.contains(word) && !output.contains(word) && code.length() == morsed.length()) { //adds word to output list if it is in the dictionary and not already added
+        		output.add(word);
+        	}
+    	}
+    	
+    	if(dictionary.contains(word) && !output.contains(word) && code.length() == morsed.length()) { //adds word to output list if it is in the dictionary and not already added
+    		output.add(word);
+    	}
+    	
+    	return output;
     }
     
     public static void handleSpacedWords(String morsed) {
@@ -35,6 +54,16 @@ public class Solution {
     
     public static void handleSentence(String morsed) {
         System.out.println("INCOMPLETE PART 4");
+        
+        /*
+    	boolean wordStartsWith = false;
+    	for(String d : dictionary) { //makes sure a word starts with the starting pieces of a string
+    		if(d.startsWith(word)) {
+    			wordStartsWith = true;
+    			break;
+    		}
+    	}
+    	*/
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -58,9 +87,9 @@ public class Solution {
         
         //reads the dictionary into an arraylist
         File dictionary = new File("dictionary.txt");
-        Scanner dictionaryScanner = new Scanner(morseFile);
-        while(morseScanner.hasNextLine()) {
-        	s.dictionary.add(morseScanner.nextLine());
+        Scanner dictionaryScanner = new Scanner(dictionary);
+        while(dictionaryScanner.hasNextLine()) {
+        	s.dictionary.add(dictionaryScanner.nextLine());
         }
         
         switch (style) {
@@ -68,7 +97,15 @@ public class Solution {
                 handleSpacedLetters(morsed, s.morseHash, s.dictionary);
                 break;
             case "Word":
-                handleWord(morsed);
+            	ArrayList<String> output = new ArrayList<>();
+            	String word = "";
+                output = handleWord(morsed, s.morseHash, s.dictionary, word, 0, 1, output);
+                
+                System.out.println(output);
+                Collections.sort(output);
+            	for(String o : output) {
+            		System.out.println(o);
+            	}
                 break;
             case "Spaced Words":
                 handleSpacedWords(morsed);
